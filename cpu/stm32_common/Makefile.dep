@@ -1,0 +1,21 @@
+ifneq (,$(filter periph_i2c,$(USEMODULE)))
+  ifneq (,$(filter $(CPU),stm32f0 stm32f3 stm32f7 stm32l0 stm32l4))
+    USEMODULE += periph_i2c_1
+  else # stm32f1/f2/f4/l1
+    USEMODULE += periph_i2c_2
+  endif
+endif
+
+# flashpage and eeprom periph implementations share flash lock/unlock functions
+# in periph_flash_common
+ifneq (,$(filter periph_flashpage periph_eeprom,$(FEATURES_REQUIRED)))
+  USEMODULE += periph_flash_common
+endif
+
+# EEPROM emulation support
+ifneq (,$(filter periph_eeprom,$(USEMODULE)))
+  ifeq (,$(filter $(CPU),stm32l0 stm32l1))
+    USEMODULE += periph_flashpage
+    USEMODULE += periph_flash_common
+  endif
+endif

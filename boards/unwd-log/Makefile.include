@@ -1,0 +1,6 @@
+## the cpu to build for
+export CPU = stm32f4
+export CPU_MODEL = stm32f415rg
+
+# load the common Makefile.include for Unwired Devices boards
+include $(RIOTBOARD)/common/unwd/Makefile.include
